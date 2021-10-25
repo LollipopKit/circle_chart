@@ -1,6 +1,6 @@
 name: example
 description: A new Flutter application that use circle_chart widget and show the result.
-
+publish_to: none
 version: 1.0.0+1
 
 environment:

@@ -6,21 +6,21 @@ import 'dart:math' as math;
 /// controlling the animation moves.
 /// Also this class has [backgroundColor] and [progressColor] to control these colors.
 class CirclePainter extends CustomPainter {
-  final Color progressColor;
-  final Color backgroundColor;
+  final Color? progressColor;
+  final Color? backgroundColor;
   final double progressNumber;
   final int maxNumber;
   final double fraction;
   final Animation<double> animation;
-  Paint _paint;
+  late Paint _paint;
 
   /// The [CirclePainter] constructor has four required parameters that are [progressNumber],
   /// [maxNumber], [fraction] and [animation].
   CirclePainter(
-      {@required this.progressNumber,
-      @required this.maxNumber,
-      @required this.fraction,
-      @required this.animation,
+      {required this.progressNumber,
+      required this.maxNumber,
+      required this.fraction,
+      required this.animation,
       this.backgroundColor,
       this.progressColor}) {
     _paint = Paint()
@@ -34,14 +34,17 @@ class CirclePainter extends CustomPainter {
   /// This method make actual painting according to given values.
   void paint(Canvas canvas, Size size) {
     _paint.color = backgroundColor ?? Colors.black12;
-    canvas.drawArc(Offset.zero & size, -math.pi * 1.5 + math.pi / 4, (3 * math.pi) / 2, false, _paint);
+    canvas.drawArc(Offset.zero & size, -math.pi * 1.5 + math.pi / 4,
+        (3 * math.pi) / 2, false, _paint);
 
     _paint.color = progressColor ?? Colors.blue;
 
-    double progressRadians = ((progressNumber / maxNumber) * (3 * math.pi / 2) * (-animation.value));
+    double progressRadians =
+        ((progressNumber / maxNumber) * (3 * math.pi / 2) * (-animation.value));
     double startAngle = (-math.pi * 1.5 + math.pi / 4);
 
-    canvas.drawArc(Offset.zero & size, startAngle, -progressRadians, false, _paint);
+    canvas.drawArc(
+        Offset.zero & size, startAngle, -progressRadians, false, _paint);
   }
 
   /// The [shouldRepaint] method is called when a new instance of the class
