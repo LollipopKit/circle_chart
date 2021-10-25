@@ -34,14 +34,14 @@ class CirclePainter extends CustomPainter {
   /// This method make actual painting according to given values.
   void paint(Canvas canvas, Size size) {
     _paint.color = backgroundColor ?? Colors.black12;
-    canvas.drawArc(Offset.zero & size, -math.pi * 1.5 + math.pi / 4,
-        (3 * math.pi) / 2, false, _paint);
+    canvas.drawArc(Offset.zero & size, -math.pi,
+        2 * math.pi, false, _paint);
 
     _paint.color = progressColor ?? Colors.blue;
 
     double progressRadians =
-        ((progressNumber / maxNumber) * (3 * math.pi / 2) * (-animation.value));
-    double startAngle = (-math.pi * 1.5 + math.pi / 4);
+        ((progressNumber / maxNumber) * (2 * math.pi) * (-animation.value));
+    double startAngle = (-math.pi);
 
     canvas.drawArc(
         Offset.zero & size, startAngle, -progressRadians, false, _paint);

@@ -9,7 +9,6 @@ import 'circle_painter.dart';
 class CircleChart extends StatefulWidget {
   final double progressNumber;
   final int maxNumber;
-  final bool showRate;
   final double width;
   final double height;
   final TextStyle? rateTextStyle;
@@ -24,7 +23,6 @@ class CircleChart extends StatefulWidget {
       {required this.progressNumber,
       required this.maxNumber,
       this.children,
-      this.showRate = true,
       this.rateTextStyle,
       this.animationDuration = const Duration(seconds: 1),
       this.backgroundColor,
@@ -80,10 +78,7 @@ class CircleChartState extends State<CircleChart>
         maxNumber: widget.maxNumber,
         backgroundColor: widget.backgroundColor,
         progressColor: widget.progressColor);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
+    return Container(
           alignment: Alignment.center,
           width: widget.width * scaledWidth,
           height: widget.height * scaledHeight,
@@ -96,17 +91,6 @@ class CircleChartState extends State<CircleChart>
               },
             ),
           ),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        Container(
-          alignment: Alignment.center,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: widget.children ?? []),
-        ),
-      ],
-    );
+        );
   }
 }
