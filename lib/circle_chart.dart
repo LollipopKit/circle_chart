@@ -11,19 +11,15 @@ class CircleChart extends StatefulWidget {
   final int maxNumber;
   final double width;
   final double height;
-  final TextStyle? rateTextStyle;
   final Duration animationDuration;
   final Color? progressColor;
   final Color? backgroundColor;
-  final List<Widget>? children;
 
   /// The [CirclePainter] constructor has two required parameters that are [progressNumber] and
   /// [maxNumber]. Also have some default parameter and optional parameters.
   CircleChart(
       {required this.progressNumber,
       required this.maxNumber,
-      this.children,
-      this.rateTextStyle,
       this.animationDuration = const Duration(seconds: 1),
       this.backgroundColor,
       this.progressColor,

@@ -40,16 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              child: CircleChart(progressNumber: 4, maxNumber: 10, children: [
-                Icon(Icons.arrow_upward),
-                Text(
-                  'This is kind of circle chart.',
-                ),
-                Text(
-                  "This is kind of description",
-                  style: Theme.of(context).textTheme.headline4,
-                ),
-              ]),
+              child: CircleChart(progressNumber: 4, maxNumber: 10),
             )
           ],
         ),
