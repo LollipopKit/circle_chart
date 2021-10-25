@@ -41,7 +41,7 @@ class CirclePainter extends CustomPainter {
 
     double progressRadians =
         ((progressNumber / maxNumber) * (2 * math.pi) * (-animation.value));
-    double startAngle = (-math.pi);
+    double startAngle = -math.pi * 1.5;
 
     canvas.drawArc(
         Offset.zero & size, startAngle, -progressRadians, false, _paint);
