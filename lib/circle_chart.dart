@@ -60,9 +60,7 @@ class CircleChartState extends State<CircleChart>
     super.dispose();
   }
 
-  /// [scaledHeight] and [scaledWidth] get with and height values
-  double get scaledWidth => MediaQuery.of(context).size.width / 1024;
-  double get scaledHeight => MediaQuery.of(context).size.height / 1024;
+  MediaQueryData get media => MediaQuery.of(context);
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +74,8 @@ class CircleChartState extends State<CircleChart>
         progressColor: widget.progressColor);
     return Container(
           alignment: Alignment.center,
-          width: widget.width * scaledWidth,
-          height: widget.height * scaledHeight,
+          width: widget.width,
+          height: widget.height,
           child: AspectRatio(
             aspectRatio: 1.0,
             child: AnimatedBuilder(
