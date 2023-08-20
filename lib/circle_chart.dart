@@ -17,14 +17,15 @@ class CircleChart extends StatefulWidget {
 
   /// The [CirclePainter] constructor has two required parameters that are [progressNumber] and
   /// [maxNumber]. Also have some default parameter and optional parameters.
-  CircleChart(
-      {required this.progressNumber,
-      required this.maxNumber,
-      this.animationDuration = const Duration(seconds: 1),
-      this.backgroundColor,
-      this.progressColor,
-      this.width = 128,
-      this.height = 128}) {
+  CircleChart({
+    required this.progressNumber,
+    required this.maxNumber,
+    this.animationDuration = const Duration(seconds: 1),
+    this.backgroundColor,
+    this.progressColor,
+    this.width = 128,
+    this.height = 128,
+  }) {
     assert(progressNumber > 0 && maxNumber > 0 && progressNumber < maxNumber);
   }
 
@@ -39,25 +40,39 @@ class CircleChartState extends State<CircleChart>
   late Animation<double> _animation;
   late AnimationController _controller;
   double _fraction = 0.0;
+  double _lastProgressNumber = 0.01;
 
   /// Animation controller and animation initialized in this method called [initState]
-  initState() {
+  @override
+  void initState() {
     super.initState();
     _controller =
         AnimationController(duration: widget.animationDuration, vsync: this);
-    _animation = Tween(begin: 0.0, end: 1.0).animate(_controller)
+    _animation = Tween(begin: 0.0, end: 1.0)
+        .chain(CurveTween(curve: Curves.fastEaseInToSlowEaseOut))
+        .animate(_controller)
       ..addListener(() {
         setState(() {
           _fraction = _animation.value;
         });
       });
-    _controller.forward();
+      _controller.forward();
   }
 
   @override
-  dispose() {
+  void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void didUpdateWidget(CircleChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.progressNumber != widget.progressNumber) {
+      _lastProgressNumber = oldWidget.progressNumber;
+      _controller.reset();
+      _controller.forward();
+    }
   }
 
   MediaQueryData get media => MediaQuery.of(context);
@@ -66,25 +81,24 @@ class CircleChartState extends State<CircleChart>
   Widget build(BuildContext context) {
     /// [CirclePainter] object created here for using as painter.
     _painter = CirclePainter(
-        animation: _controller,
-        fraction: _fraction,
-        progressNumber: widget.progressNumber,
-        maxNumber: widget.maxNumber,
-        backgroundColor: widget.backgroundColor,
-        progressColor: widget.progressColor);
+      fraction: _fraction,
+      progressNumber: widget.progressNumber,
+      lastProgressNumber: _lastProgressNumber,
+      maxNumber: widget.maxNumber,
+      backgroundColor: widget.backgroundColor,
+      progressColor: widget.progressColor,
+    );
     return Container(
-          alignment: Alignment.center,
-          width: widget.width,
-          height: widget.height,
-          child: AspectRatio(
-            aspectRatio: 1.0,
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (BuildContext context, Widget? child) {
-                return CustomPaint(painter: _painter);
-              },
-            ),
-          ),
-        );
+      alignment: Alignment.center,
+      width: widget.width,
+      height: widget.height,
+      child: AspectRatio(
+        aspectRatio: 1.0,
+        child: AnimatedBuilder(
+          animation: _controller,
+          builder: (_, __) => CustomPaint(painter: _painter),
+        ),
+      ),
+    );
   }
 }
